@@ -1,0 +1,19 @@
+import { Link } from 'react-router-dom';
+import CONSTANTS from '../../constants.js';
+import PropTypes from 'prop-types';
+
+const LinkLogo = ({ to, ...props }) => {
+  return (
+    <Link to={to}>
+      <img {...props} />
+    </Link>
+  );
+};
+
+LinkLogo.propTypes = {
+  className: PropTypes.string,
+  to: PropTypes.string,
+  src: PropTypes.string,
+  alt: PropTypes.string,
+};
+export default LinkLogo;
