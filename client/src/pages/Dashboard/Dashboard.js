@@ -17,6 +17,9 @@ const Dashboard = (props) => {
                     :
                     <CreatorDashboard history={history} match={props.match}/>
             }
+            <Link to="/But">
+                But
+            </Link>
         </div>
     );
 };
