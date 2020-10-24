@@ -1,12 +1,13 @@
-const db = require('../models/index');
+const db = require('../db/models/index');
 import ServerError from '../errors/ServerError';
-
+const {Op} = repuire('sequelize');
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
 const controller = require('../../socketInit');
 const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../../constants');
+const moment = require ('moment');
 
 module.exports.dataForContest = async (req, res, next) => {
   let response = {};
@@ -122,6 +123,16 @@ module.exports.updateContest = async (req, res, next) => {
     next(e);
   }
 };
+
+module.exports.getOffersFiles = async (req, res, next) => {
+  try {
+    const {body:{queryFilter}}= req;
+    const result = await contestQueries.queryOffersFilter(queryFilter);
+    res.send(result);
+  } catch(e) {
+    next(e);
+  }
+}
 
 module.exports.setNewOffer = async (req, res, next) => {
   const obj = {};
@@ -243,8 +254,8 @@ module.exports.getCustomersContests = (req, res, next) => {
 };
 
 module.exports.getContests = (req, res, next) => {
-  const predicates = UtilFunctions.createWhereForAllContests(req.body.typeIndex,
-    req.body.contestId, req.body.industry, req.body.awardSort);
+  const predicates = UtilFunctions.createWhereForAllContests(req.body.contestId,
+    req.body.industry, req.body.awardSort, req.body.selectedContestTypes);
   db.Contests.findAll({
     where: predicates.where,
     order: predicates.order,
@@ -263,7 +274,7 @@ module.exports.getContests = (req, res, next) => {
       contests.forEach(
         contest => contest.dataValues.count = contest.dataValues.Offers.length);
       let haveMore = true;
-      if (contests.length === 0) {
+      if (contests.length === 0 || contest.length <=req.body.limit) {
         haveMore = false;
       }
       res.send({ contests, haveMore });

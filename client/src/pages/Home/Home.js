@@ -170,9 +170,7 @@ const Home = (props) => {
                         </div>
                     </div>
                     <div className={styles.blueTip}>
-                        <span>
-                            Ready to get started? Launch a contest and start receiving submissions instantly.
-                        </span>
+                        <span>Ready to get started? Launch a contest and start receiving submissions instantly.</span>
                         <Link to="/startContest">
                             <i className="far fa-lightbulb mr-1"/>
                             Start A Contest

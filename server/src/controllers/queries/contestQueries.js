@@ -1,4 +1,4 @@
-const bd = require('../../models/index');
+const bd = require('../../db/models/index');
 const ServerError = require('../../errors/ServerError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
@@ -47,5 +47,12 @@ module.exports.createOffer = async (data) => {
     throw new ServerError('cannot create new Offer');
   } else {
     return result.get({ plain: true });
+  }
+};
+module.exports.queryOffersFiles = async (queryObject) => {
+  const result = await bd.Offers.findAll(queryObject);
+  if(result.lenth != 0) return result;
+  else {
+  throw new ServerError ('Offers not found!');
   }
 };

@@ -31,7 +31,7 @@ export default function (state = initialState, action) {
                 ...state,
                 isFetching: false,
                 error: null,
-                contests: [...state.contests, ...action.data.contests],
+                contests: [...action.data.contests],
                 haveMore: action.data.haveMore
             }
         }
@@ -64,8 +64,49 @@ export default function (state = initialState, action) {
                 creatorFilter: {...state.creatorFilter,...action.filter}
             }
         }
+        case ACTION.ADD_CONTEST_TYPE: {
+            const {data} = action
+            const {creatorFilter: {selectedContestTypes}, creatorFilter} = state
+            const contestSet = new Set(selectedContestTypes)
+            contestSet.add(data)
+            return {
+                ...state,
+                creatorFilter: {
+                    ...creatorFilter,
+                    selectedContestTypes: [...contestSet],
+                }
+            }
+        }
+        case ACTION.REMOVE_CONTEST_TYPE: {
+            const {data} = action
+            const {creatorFilter: {selectedContestTypes}, creatorFilter} = state
+            const contestSet = new Set(selectedContestTypes)
+            contestSet.delete(data)
+            return {
+                ...state,
+                creatorFilter: {
+                    ...creatorFilter,
+                    selectedContestTypes: [...contestSet],
+                }
+            }
+        }
+        case ACTION.TOGGLE_CONTEST_TYPE: {
+            const {data} = action
+            const {creatorFilter: {selectedContestTypes}, creatorFilter} = state
+            const contestSet = new Set(selectedContestTypes)
+            if(contestSet.has(data)) {contestSet.delete(data)}
+            else{ contestSet.add(data)}
+            return {
+                ...state,
+                creatorFilter: {
+                    ...creatorFilter,
+                    selectedContestTypes: [...contestSet],
+                }
+            }
+        }
+        
+
         default:
             return state;
     }
 }
-

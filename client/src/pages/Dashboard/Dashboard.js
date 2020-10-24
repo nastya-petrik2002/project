@@ -4,11 +4,13 @@ import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashbo
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import Header from '../../components/Header/Header';
 import {connect} from 'react-redux';
+import {Link} from "react-router-dom";
 
 
 const Dashboard = (props) => {
     const {role, history} = props;
     return (
+        <>
         <div>
             <Header/>
             {
@@ -17,10 +19,14 @@ const Dashboard = (props) => {
                     :
                     <CreatorDashboard history={history} match={props.match}/>
             }
-            <Link to="/But">
-                But
+        </div>
+        <div>
+        
+            <Link to="/">
+                Start
             </Link>
         </div>
+        </>
     );
 };
 

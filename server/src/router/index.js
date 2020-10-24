@@ -84,6 +84,12 @@ router.post(
   contestController.setNewOffer,
 );
 
+router.get(
+  'getOffersFiles',
+  basicMiddlewares.createQueryFilter,
+  contestController.getOffersFiles,
+);
+
 router.post(
   '/setOfferStatus',
   checkToken.checkToken,
