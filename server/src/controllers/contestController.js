@@ -8,6 +8,7 @@ const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../../constants');
 const moment = require ('moment');
+const transactionQueries = require('./queries/trasactionQueries');
 
 module.exports.dataForContest = async (req, res, next) => {
   let response = {};
@@ -188,6 +189,13 @@ const resolveOffer = async (
   }, {
     contestId: contestId,
   }, transaction);
+
+  const savedTransaction = await transactionQueries.addIncomeTransaction({
+    userId: creatorId,
+    typeOperation: 'income',
+    sum: finishedContest.prize,
+  })
+
   transaction.commit();
   const arrayRoomsId = [];
   updatedOffers.forEach(offer => {

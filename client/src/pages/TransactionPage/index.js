@@ -5,8 +5,12 @@ import Header from "../../components/Header/Header";
 import {Link} from "react-router-dom"
 import styles from './TransactionPage.sass'
 import CONSTANTS from '../../constants.js'
+import {connect} from 'react-redux';
+import Error from '../../components/Error/Error';
+import Spinner from '../../components/Spinner/Spinner';
+import {createGetTransactionRequest} from '../../actions/actionCreator';
 
-const data = [
+/*const data = [
     {
         id: 1,
         type: CONSTANTS.INCOME,
@@ -32,16 +36,17 @@ const data = [
         type: CONSTANTS.EXPENSE,
         sum: 700
     },
-];
+];*/
 
 const TransactionPage = props => {
+    const {getTransactions, transactions, statement: {income, expense},isFetchingTransactions, error} = props;
     return (
         <>
             <Header/>
             <div className={styles.pageWrapper}>
                 {
-                data ? <TransactionTable
-                    data={data}
+                transactions ? <TransactionTable
+                    data={transactions}
                     className={styles.tableContainer} />
                     : <div style={{ textAlign: 'center'}}>No transactions</div>
                     )}

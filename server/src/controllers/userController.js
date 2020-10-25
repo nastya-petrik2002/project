@@ -13,6 +13,7 @@ const controller = require('../../socketInit');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const transactionQueries = require('./queeries/transactionQueries');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -202,6 +203,13 @@ module.exports.cashout = async (req, res, next) => {
         },
       },
       transaction);
+
+  const savedTransaction = await transactionQueries.addIncomeTransaction({
+    userId: creatorId,
+    typeOperation: 'income',
+    sum: finishedContest.prize,
+  })
+
     transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (err) {
@@ -210,4 +218,12 @@ module.exports.cashout = async (req, res, next) => {
   }
 };
 
-
+module.exports.getUserTransactions = async (req,res,next) => {
+  try{
+    const {} = req;
+    const result = await transactionQueries.getHistoryByUserId(userId);
+    res.send(result);
+  } catch(e){
+    next(e);
+  }
+}

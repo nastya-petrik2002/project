@@ -44,7 +44,7 @@ export const getContestById = (data) => {
 };
 
 
-
+export const getUserTransactions = () => http.get('getUserTransactions');
 
 
 
